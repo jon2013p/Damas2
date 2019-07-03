@@ -1,14 +1,9 @@
 from tkinter import *
-
+from tkinter import ttk
 _pasos = 80
 _dimension = 640
 
-"""turno= "j1"
-nombreJugador1 = "Jugador 1"
-nombreJugador2 = "Jugador 2"
 
-turnoJugadorLabel=Label(text="")
-turnoJugadorLabel.place(x="625", y="50")"""
  
 damas = Tk()
 damas.title("DAMAS CRACK, MAQUINA, LEYENDA")
@@ -17,6 +12,22 @@ damas.geometry('640x640')
 tablero.place(x=0, y=0)
 fichazul = PhotoImage(file='ficha1.png')
 fichamarilla = PhotoImage(file='ficha2.png')
+
+turno= "j1"
+nombreJugador1 = "Jonathan"
+nombreJugador2 = "Chantal"
+
+turnoJugadorLabel=ttk.Label(damas,text="")
+turnoJugadorLabel.place(x="625", y="50")
+
+def turnoj():
+
+	turno="Turno de: "
+	if turno=="j1":
+		turno+=nombreJugador1
+	else:
+		turno+=nombreJugador2
+		turnoJugadorLabel.config(text=turno)
 
 _lista = []
 _posicionar = {} 
@@ -70,17 +81,13 @@ for _key in _posicionar:
  
 sign = lambda x: (1, -1)[x < 0]
 
-"""def MostrarTurno():
-    turno="Turno de: "
-    if turno=="j1":
-        turno+=nombreJugador1
-    else:
-        turno+=nombreJugador2
-    turnoJugadorLabel.config(text=turno)"""
+
+
 
 def buttonClick(event):
 	pass
 def buttonPress(event):
+
 	global _datos_act
 	_item = tablero.find_closest(event.x, event.y)[0] 
 	_tags = tablero.gettags(_item)
@@ -101,6 +108,10 @@ def buttonPress(event):
 			pass
 	else:
 		_datos_act["item"] = None 
+	
+
+
+
 def buttonRelease(event):
 	global _posicionar
 	global _datos_act
@@ -138,6 +149,11 @@ def buttonRelease(event):
 			_deltaX = _lpx - _px + _datos_act["relativeOffsetX"]
 			_deltaY = _lpy - _py + _datos_act["relativeOffsetY"] 
 			tablero.move(_item,_deltaX,_deltaY)
+			if turno=="j1":
+				turno="j2"
+			else:
+				turno="j1"	
+			turnoj()			
 		else: 
 			if abs_deltaFloorX>80:
 				tfloorX = floorX - sign(deltaFloorX) * _pasos
@@ -150,7 +166,12 @@ def buttonRelease(event):
 
 					_deltaX = _lpx - _px + _datos_act["relativeOffsetX"]
 					_deltaY = _lpy - _py + _datos_act["relativeOffsetY"] 
-					tablero.move(_item,_deltaX,_deltaY) 
+					tablero.move(_item,_deltaX,_deltaY)
+					if turno=="j1":
+						turno="j2"
+					else:
+						turno="j1"	
+					turnoj()					 
 				else:  
 					if _val1 is None:
 						_otags = tablero.gettags(_val)
@@ -167,6 +188,11 @@ def buttonRelease(event):
 								tablero.delete(_val);
 								_posicionar[str(_val)] = None
 								_posicionar[_tkey] = None 
+								if turno=="j1":
+									turno="j2"
+								else:
+									turno="j1"	
+								turnoj()								
 							else:
 
 								_deltaX = _lpx - _px + _datos_act["relativeOffsetX"]
@@ -221,7 +247,7 @@ tablero.tag_bind("ficha","<Button-1>", buttonClick)
 tablero.tag_bind("ficha","<ButtonPress-1>", buttonPress) 
 tablero.tag_bind("ficha","<ButtonRelease-1>", buttonRelease) 
 tablero.tag_bind("ficha","<B1-Motion>", buttonMotion) 
-#MostrarTurno()
+
 
 damas.mainloop()
 
