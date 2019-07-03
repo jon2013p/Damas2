@@ -1,6 +1,6 @@
 # Damas2
 Integrantes: Chantal Morales,
-             Jonathan Vazques
+             Jonathan Vásquez
 
 Reglas del juego:
 
